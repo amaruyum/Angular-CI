@@ -1,0 +1,11 @@
+name: Angular CI
+
+on: [push]
+
+jobs: 
+  Codigo_para_que_funcione:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Test
+      run: echo "Funciona Correctamente la conexion"
