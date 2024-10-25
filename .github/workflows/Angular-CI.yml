@@ -1,11 +1,32 @@
-name: Angular CI
+name: Node.js CI
 
-on: [push]
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
-jobs: 
-  Codigo_para_que_funcione:
+jobs:
+  build:
+
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [20]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
     steps:
-    - name: Test
-      run: echo "Funciona Correctamente la conexion"
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    
+    - name: Run Test
+      run: npm run test:ci
+    
+    - name: build
+      run: npm run build
